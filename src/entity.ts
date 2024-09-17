@@ -8,7 +8,7 @@ interface Components {
   [key: string]: any
 }
 
-export class ComponentType { }
+export class ComponentType {}
 
 export interface EntityMapData {
   [key: string]: Entity
@@ -73,16 +73,18 @@ export class Entity {
 
 export class EntityManager {
   world: World
-  entitiesPool: Entity[] = []
+  entitiesPool: number[] = []
   constructor(world: World) {
     this.world = world
   }
 
   create() {
+    let id: number
     if (this.entitiesPool.length > 0) {
-      return this.entitiesPool.pop()
+      id = this.entitiesPool.pop()
+    } else {
+      id = this.world.counter++
     }
-    const id = this.world.counter++
     const ett = new Entity(this.world, id)
     this.world.entitiesMap[ett.id] = ett
     return ett
@@ -109,8 +111,12 @@ export class EntityManager {
     return this.world.entitiesMap[index]
   }
 
-  entities_with_components<T extends ComponentType>(component: Constructor<T>): Entity[] {
-    return Object.values(this.world.entitiesMap).filter(({ components }) => components[component.name])
+  entities_with_components<T extends ComponentType>(
+    component: Constructor<T>,
+  ): Entity[] {
+    return Object.values(this.world.entitiesMap).filter(
+      ({ components }) => components[component.name],
+    )
   }
 
   destroy(id: number) {
@@ -118,7 +124,7 @@ export class EntityManager {
     if (ett) {
       ett.removeAllComponent()
     }
-    // this.entitiesPool.push(ett)
+    this.entitiesPool.push(id)
     delete this.world.entitiesMap[id]
   }
 
