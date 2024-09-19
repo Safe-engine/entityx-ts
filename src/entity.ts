@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // import { ComponentType } from 'safex/gworld/components/EnhancedComponent'
-import { ComponentAddedEvent, ComponentRemovedEvent } from './event'
+import { EventTypes } from './event'
 import { Constructor } from './global'
 import { World } from './world'
 
@@ -8,7 +8,7 @@ interface Components {
   [key: string]: any
 }
 
-export class ComponentType {}
+export class ComponentType { }
 
 export interface EntityMapData {
   [key: string]: Entity
@@ -46,14 +46,14 @@ export class Entity {
     // const instance = component.create(...args);
     const component = instance.constructor.name
     this.components[component] = instance
-    this.world.events.publish(ComponentAddedEvent(component), this, instance)
+    this.world.events.publish(EventTypes.ComponentAdded, this, instance)
     return instance
   }
 
   remove = <T extends ComponentType>(component: Constructor<T>): void => {
     // Remove component data by removing the reference to it
     const instance = this.components[component.name]
-    this.world.events.publish(ComponentRemovedEvent(component), this, instance)
+    this.world.events.publish(EventTypes.ComponentRemoved, this, instance)
     delete this.components[component.name]
   }
 
@@ -61,7 +61,7 @@ export class Entity {
     const { components } = this
     Object.keys(components).forEach((key) => {
       const component = components[key]
-      this.world.events.publish(ComponentRemovedEvent(key), this, component)
+      this.world.events.publish(EventTypes.ComponentRemoved, this, component)
       delete this.components[key]
     })
   }
