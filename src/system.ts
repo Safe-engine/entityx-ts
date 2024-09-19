@@ -1,12 +1,10 @@
 import { EntityManager } from './entity'
-import { EventManager, EventReceive } from './event'
+import { EventManager } from './event'
 import { Constructor } from './global'
 import { World } from './world'
 
 export interface System {
   configure(event_manager: EventManager)
-
-  receive(type: string, event: EventReceive)
 
   update(entities: EntityManager, events: EventManager, dt: number)
 }

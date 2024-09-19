@@ -1,6 +1,5 @@
 import { ComponentType, Entity } from './entity'
 import { Constructor } from './global'
-import { System } from './system'
 import { World } from './world'
 
 export class EventManager {
@@ -12,18 +11,18 @@ export class EventManager {
   publish<T extends ComponentType>(event: string, entity: Entity, component: T) {
     // console.log('event', event);
     if (this.world.eventsMap[event]) {
-      this.world.eventsMap[event].forEach((sys) => {
-        sys.receive(event, { entity, component })
+      this.world.eventsMap[event].forEach((cb) => {
+        cb({ entity, component })
       })
     }
   }
 
-  subscribe(eventName: string, target: System) {
+  subscribe(eventName: string, callback: EventReceiveCallback) {
     if (!this.world.eventsMap[eventName]) {
       this.world.eventsMap[eventName] = []
     }
     const targets = this.world.eventsMap[eventName]
-    targets.push(target)
+    targets.push(callback)
   }
 }
 
@@ -45,9 +44,9 @@ export interface EventReceive {
   component: ComponentType
   entity: Entity
 }
-
+export type EventReceiveCallback = (entity: EventReceive) => void
 export interface EventMapData {
-  [key: string]: Array<System>
+  [key: string]: Array<EventReceiveCallback>
 }
 
 export type ReceiveEvent = typeof ComponentAddedEvent | typeof ComponentRemovedEvent
