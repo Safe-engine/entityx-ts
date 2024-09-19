@@ -72,3 +72,4 @@ output/
 .eslintrc
 tsconfig.json
 .vscode
+.github/
