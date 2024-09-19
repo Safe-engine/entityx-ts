@@ -6,7 +6,7 @@ import { World } from './world'
 export interface System {
   configure(event_manager: EventManager)
 
-  update(entities: EntityManager, events: EventManager, dt: number)
+  update?(entities: EntityManager, events: EventManager, dt: number)
 }
 
 export class SystemManager {

@@ -7,9 +7,9 @@ export enum EventTypes {
   ComponentRemoved,
 }
 
-export class EventManager {
-  world: World
-  constructor(world: World) {
+export class EventManager<W extends World = World> {
+  world: W
+  constructor(world: W) {
     this.world = world
   }
 
