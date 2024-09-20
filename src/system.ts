@@ -4,8 +4,7 @@ import { Constructor } from './global'
 import { World } from './world'
 
 export interface System {
-  configure(event_manager: EventManager)
-
+  configure?(event_manager: EventManager)
   update?(entities: EntityManager, events: EventManager, dt: number)
 }
 
@@ -33,7 +32,9 @@ export class SystemManager {
 
   configure() {
     Object.values(this.world.systemsMap).forEach((sys) => {
-      sys.configure(this.world.events)
+      if (sys.configure) {
+        sys.configure(this.world.events)
+      }
     })
   }
 
