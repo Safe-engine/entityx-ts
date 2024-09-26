@@ -7,15 +7,15 @@ export enum EventTypes {
   ComponentRemoved,
 }
 
-export class EventManager {
-  world: World
-  constructor(world: World) {
+export class EventManager<W extends World = World> {
+  world: W
+  constructor(world: W) {
     this.world = world
   }
 
   publish<T>(event: EventTypes, entity: Entity, component: T) {
     const eventName = getEventName(event, component.constructor as Constructor<T>)
-    console.log('eventName', eventName);
+    // console.log('eventName', eventName);
     if (this.world.eventsMap[eventName]) {
       this.world.eventsMap[eventName].forEach((cb) => {
         cb({ entity, component })
