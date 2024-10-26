@@ -23,18 +23,10 @@ export class Entity {
     this.id = id
   }
 
-  // createOrGetComponent = <T extends ComponentType>(component: Constructor<T>, instance:T): T => {
-  //   const comp = this.getComponent(component);
-  //   if (!comp) {
-  //     return this.assign(component, instance);
-  //   }
-  //   return comp;
-  // }
-
   getComponent = <T extends ComponentType>(component: Constructor<T>): T => {
-    if (typeof component === 'string') {
-      return this.components[component]
-    }
+    // if (typeof component === 'string') {
+    //   return this.components[component]
+    // }
     return this.components[component.name]
   }
 

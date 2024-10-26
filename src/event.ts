@@ -31,31 +31,37 @@ export class EventManager<W extends World = World> {
     const targets = this.world.eventsMap[eventName]
     targets.push(callback)
   }
+
+  publishCustom<T>(eventName: string, data?: T) {
+    // console.log('eventName', eventName);
+    if (this.world.eventsCustomMap[eventName]) {
+      this.world.eventsCustomMap[eventName].forEach((cb) => {
+        cb(data)
+      })
+    }
+  }
+
+  subscribeCustom<T>(eventName: string, callback: EventCustomReceiveCallback<T>) {
+    if (!this.world.eventsCustomMap[eventName]) {
+      this.world.eventsCustomMap[eventName] = []
+    }
+    this.world.eventsCustomMap[eventName].push(callback)
+  }
 }
 export function getEventName<T extends ComponentType>(event: EventTypes, component: Constructor<T>) {
   return `${event}_${component.name}`
-}
-export function ComponentAddedEvent<T extends ComponentType>(component: Constructor<T> | string) {
-  if (typeof component === 'string') {
-    return `${EventTypes.ComponentAdded}_${component}`
-  }
-  return getEventName(EventTypes.ComponentAdded, component)
-}
-
-export function ComponentRemovedEvent<T extends ComponentType>(component: Constructor<T> | string) {
-  if (typeof component === 'string') {
-    return `${EventTypes.ComponentRemoved}_${component}`
-  }
-  return getEventName(EventTypes.ComponentRemoved, component)
 }
 
 export interface EventReceive<T> {
   component: T
   entity: Entity
 }
+
 export type EventReceiveCallback<T> = (entity: EventReceive<T>) => void
 export interface EventMapData {
   [key: string]: Array<EventReceiveCallback<ComponentType>>
 }
-
-export type ReceiveEvent = typeof ComponentAddedEvent | typeof ComponentRemovedEvent
+export type EventCustomReceiveCallback<T> = (data: T) => void
+export interface EventCustomMapData {
+  [key: string]: Array<EventCustomReceiveCallback<ComponentType>>
+}

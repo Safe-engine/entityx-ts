@@ -1,5 +1,5 @@
 import { EntityManager, EntityMapData } from './entity'
-import { EventManager, EventMapData } from './event'
+import { EventCustomMapData, EventManager, EventMapData } from './event'
 import { SystemManager, SystemMapData } from './system'
 
 export class World {
@@ -7,6 +7,7 @@ export class World {
   public entitiesMap: EntityMapData = {}
   public systemsMap: SystemMapData = {}
   public eventsMap: EventMapData = {}
+  public eventsCustomMap: EventCustomMapData = {}
   entities: EntityManager
   systems: SystemManager
   events: EventManager
@@ -16,5 +17,3 @@ export class World {
     this.events = new EventManager(this)
   }
 }
-
-// export const world = new World();
