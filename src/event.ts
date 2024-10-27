@@ -57,7 +57,7 @@ export interface EventReceive<T> {
   entity: Entity
 }
 
-export type EventReceiveCallback<T> = (entity: EventReceive<T>) => void
+export type EventReceiveCallback<T> = (event: EventReceive<T>) => void
 export interface EventMapData {
   [key: string]: Array<EventReceiveCallback<ComponentType>>
 }

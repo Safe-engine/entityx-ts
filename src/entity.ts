@@ -104,10 +104,10 @@ export class EntityManager {
   }
 
   entities_with_components<T extends ComponentType>(
-    component: Constructor<T>,
+    ...componentList: Constructor<T>[]
   ): Entity[] {
     return Object.values(this.world.entitiesMap).filter(
-      ({ components }) => components[component.name],
+      ({ components }) => componentList.every(component => components[component.name])
     )
   }
 

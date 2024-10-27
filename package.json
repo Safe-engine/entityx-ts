@@ -1,6 +1,6 @@
 {
   "name": "entityx-ts",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "ecs system for safex engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
