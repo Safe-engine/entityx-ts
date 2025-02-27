@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import { ComponentType } from 'safex/gworld/components/EnhancedComponent'
 import { EventTypes } from './event'
-import { Constructor } from './global'
-import { World } from './world'
+import { Constructor, World } from './world'
 
 interface Components {
   [key: string]: any
@@ -23,18 +20,10 @@ export class Entity {
     this.id = id
   }
 
-  // createOrGetComponent = <T extends ComponentType>(component: Constructor<T>, instance:T): T => {
-  //   const comp = this.getComponent(component);
-  //   if (!comp) {
-  //     return this.assign(component, instance);
-  //   }
-  //   return comp;
-  // }
-
   getComponent = <T extends ComponentType>(component: Constructor<T>): T => {
-    if (typeof component === 'string') {
-      return this.components[component]
-    }
+    // if (typeof component === 'string') {
+    //   return this.components[component]
+    // }
     return this.components[component.name]
   }
 
@@ -43,7 +32,6 @@ export class Entity {
     // NOTE: The component must have a name property (which is defined as
     // a prototype prototype of a component function)
     // cc.log(component.name, component.create);
-    // const instance = component.create(...args);
     const component = instance.constructor.name
     this.components[component] = instance
     this.world.events.publish(EventTypes.ComponentAdded, this, instance)
@@ -112,10 +100,10 @@ export class EntityManager {
   }
 
   entities_with_components<T extends ComponentType>(
-    component: Constructor<T>,
+    ...componentList: Constructor<T>[]
   ): Entity[] {
     return Object.values(this.world.entitiesMap).filter(
-      ({ components }) => components[component.name],
+      ({ components }) => componentList.every(component => components[component.name])
     )
   }
 

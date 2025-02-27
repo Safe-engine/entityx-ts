@@ -1,5 +1,4 @@
 export * from './entity'
 export * from './event'
-export * from './global'
 export * from './system'
 export * from './world'
