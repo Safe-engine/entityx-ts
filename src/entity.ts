@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// import { ComponentType } from 'safex/gworld/components/EnhancedComponent'
 import { EventTypes } from './event'
-import { Constructor } from './global'
-import { World } from './world'
+import { Constructor, World } from './world'
 
 interface Components {
   [key: string]: any
@@ -35,7 +32,6 @@ export class Entity {
     // NOTE: The component must have a name property (which is defined as
     // a prototype prototype of a component function)
     // cc.log(component.name, component.create);
-    // const instance = component.create(...args);
     const component = instance.constructor.name
     this.components[component] = instance
     this.world.events.publish(EventTypes.ComponentAdded, this, instance)

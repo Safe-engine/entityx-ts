@@ -1,6 +1,5 @@
 import { ComponentType, Entity } from './entity'
-import { Constructor } from './global'
-import { World } from './world'
+import { Constructor, World } from './world'
 
 export enum EventTypes {
   ComponentAdded,

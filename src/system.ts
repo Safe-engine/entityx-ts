@@ -1,7 +1,6 @@
 import { EntityManager } from './entity'
 import { EventManager } from './event'
-import { Constructor } from './global'
-import { World } from './world'
+import { Constructor, World } from './world'
 
 export interface System {
   configure?(event_manager: EventManager)

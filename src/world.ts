@@ -2,6 +2,7 @@ import { EntityManager, EntityMapData } from './entity'
 import { EventCustomMapData, EventManager, EventMapData } from './event'
 import { SystemManager, SystemMapData } from './system'
 
+export type Constructor<T = any> = new (...args: any[]) => T
 export class World {
   public counter = 0
   public entitiesMap: EntityMapData = {}
