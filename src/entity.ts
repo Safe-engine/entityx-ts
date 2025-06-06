@@ -15,6 +15,7 @@ export class Entity {
   id = 0
   components: Components = {}
   world: World
+  immortal: boolean
   constructor(world: World, id) {
     this.world = world
     this.id = id
@@ -109,9 +110,8 @@ export class EntityManager {
 
   destroy(id: number) {
     const ett = this.world.entitiesMap[id]
-    if (ett) {
-      ett.removeAllComponent()
-    }
+    if (!ett || ett.immortal) return
+    ett.removeAllComponent()
     this.entitiesPool.push(id)
     delete this.world.entitiesMap[id]
   }
