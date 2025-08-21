@@ -42,8 +42,8 @@ entity.assign(new Velocity(1, 1));
 ### 4. Create Systems
 
 ```ts
-class MovementSystem {
-    update(world: World) {
+class MovementSystem implements System {
+    update(entities: EntityManager, events: EventManager, dt: number) {
         for (const entity of entities.entities_with_components(Position, Velocity)) {
             const pos = entity.getComponent(Position);
             const vel = entity.getComponent(Velocity);
@@ -57,7 +57,6 @@ class MovementSystem {
 ### 5. Run the World
 
 ```ts
-
 
 function gameLoop() {
     const movementSystem = world.systems.get(MovementSystem);
