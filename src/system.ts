@@ -21,12 +21,15 @@ export class SystemManager {
     return this.world.systemsMap[sys.name] as T
   }
 
-  configureOnce<T extends System>(sys: Constructor<T>) {
-    return this.world.systemsMap[sys.name].configure(this.world.events)
+  addThenConfigure<T extends System>(sys: Constructor<T>) {
+    const newSystem = new sys()
+    this.world.systemsMap[sys.name] = newSystem
+    newSystem.configure(this.world.events)
+    return newSystem
   }
 
   add<T extends System>(sys: Constructor<T>) {
-    this.world.systemsMap[sys.name] = new sys()
+    return this.world.systemsMap[sys.name] = new sys()
   }
 
   configure() {
